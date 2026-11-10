@@ -29,7 +29,12 @@ class NotificationWorker(context: Context, params: WorkerParameters) : Coroutine
                 try { NotificationManagerCompat.from(applicationContext).notify(1001, notification) }
                 catch (_: SecurityException) { }
             }
-            prefs.edit().putStringSet("seen_ids", (oldIds + items.map { it.id }).takeLast(500).toSet()).apply()
+            prefs.edit()
+    .putStringSet(
+        "seen_ids",
+        (oldIds + items.map { it.id }).toList().takeLast(500).toSet()
+    )
+    .apply()
             androidx.work.ListenableWorker.Result.success()
         } catch (_: Exception) {
             androidx.work.ListenableWorker.Result.retry()
