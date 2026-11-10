@@ -27,8 +27,10 @@ class AnnouncementRepository {
                     val combined = "$title $context".lowercase()
                     if (!isRelevant(combined, sourceName)) return@anchorLoop
                     val href = a.absUrl("href").ifBlank { sourceUrl }
-                    val date = Regex("\\b\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4}\\b")
-                        .find(context)?.value ?: ""
+val rawDate = Regex("\\b\\d{1,2}[-/]\\d{1,2}[-/]\\d{4}\\b")
+    .find(context)?.value ?: ""
+
+val date = formatAnnouncementDate(rawDate)
                     results += Announcement(title, date, href, sourceName, classify(combined), context.take(260))
                 }
             } catch (_: Exception) {
