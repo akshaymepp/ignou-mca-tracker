@@ -1,4 +1,4 @@
-package in.ignou.mcatracker
+package `in`.ignou.mcatracker
 
 data class Announcement(
     val title: String,
